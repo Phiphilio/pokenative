@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
+import { Link } from "expo-router";
 
 /**
  * StyleSheet, Text, View sont des bouts de codes que je peux réutiliser,
@@ -12,7 +13,7 @@ import { StyleSheet, Text, View } from "react-native";
  * les composant sont des fonctions ou des classes qui ont pour rôle de générer un élément graphique.
  * ça peut être un bouton, une image, du texte, etc.
  * les composants ne sont utilisables que dans le cadre de react-native (et react)
- * de nos jours on utilise des composants qui sont des fonctions
+ * de nos jours on utilise plus les composants qui sont des fonctions
  *
  *
  */
@@ -21,6 +22,7 @@ export default function Index() {
   return (
     <View style={styles.container}>
       <Text>Edit app/index.tsx to edit this screen.</Text>
+      <Link href="/about"> à propos</Link>
     </View>
   );
 }
