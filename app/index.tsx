@@ -26,8 +26,13 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
+  /**
+   *StyleSheet est un module de type objet.
+   là on a fait appel à la methode create qui nous permets de gérer les styles.
+   cette methode prend en paramètre un objet et renvoie un objet
+   */
   container: {
-    backgroundColor: "pink",
+    backgroundColor: "darkgreen",
     padding: 30,
   },
 });
