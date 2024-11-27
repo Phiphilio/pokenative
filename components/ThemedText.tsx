@@ -1,3 +1,6 @@
+import { StyleSheet, Text } from "react-native";
+import { TextProps } from "react-native/Libraries/Text/Text";
+
 // on crée un composant qui nous permettra de gérer les themes de texte
 
 /**
@@ -13,8 +16,68 @@
  *dans ce cas, après avoir donné le type props, on affecte les valeurs pour chaque propriété
  *
  *
+ * TextProps est un style existant qui vient de react-native. quand j'écris TextProps & {...},
+ * je suis entrain de créer un élément qui est à la fois de type TextProps et un objet.
+ * ça veut dire que tout ce qui sera du type props sera à la fois un un TextProps et l'objet
+ *
+ *
  */
-type props = {
-  variant?: string;
+type props = TextProps & {
+  variant?: keyof typeof styles;
+  /**
+   * typeof styles : Récupère le type de l'objet styles
+   *keyof : Extrait les noms des clés de ce type (les clés de styles
+   *En résumé, keyof typeof styles signifie : "Les noms des clés de l'objet styles."
+   */
   color?: string;
 };
+
+export function ThemedText({ variant, color, ...rest }: props) {
+  return <Text style={styles[variant ?? "body3"]} {...rest} />;
+}
+
+const styles = StyleSheet.create({
+  body3: {
+    fontSize: 10,
+    lineHeight: 16,
+  },
+
+  body2: {
+    fontSize: 12,
+    lineHeight: 16,
+  },
+
+  body1: {
+    fontSize: 14,
+    lineHeight: 16,
+  },
+
+  caption: {
+    fontSize: 8,
+    lineHeight: 12,
+  },
+
+  headline: {
+    fontSize: 24,
+    lineHeight: 32,
+    fontWeight: "bold",
+  },
+
+  subtitle3: {
+    fontSize: 10,
+    lineHeight: 16,
+    fontWeight: "bold",
+  },
+
+  subtitle2: {
+    fontSize: 14,
+    lineHeight: 16,
+    fontWeight: "bold",
+  },
+
+  subtitle1: {
+    fontSize: 12,
+    lineHeight: 16,
+    fontWeight: "bold",
+  },
+});
