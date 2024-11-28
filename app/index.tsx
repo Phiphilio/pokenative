@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ThemedText } from "@/components/ThemedText";
 
 /**
  * StyleSheet, Text, View sont des bouts de codes que je peux réutiliser,
@@ -22,11 +23,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function Index() {
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-      <Link href="/about"> à propos</Link>
-      <Link href={{ pathname: "/pokemon/[id]", params: { id: 3 } }}>
-        pokemon 3
-      </Link>
+      <ThemedText variant="headline" color="grayWhite">
+        Pokedex
+      </ThemedText>
     </SafeAreaView>
   );
 }
@@ -46,7 +45,7 @@ const styles = StyleSheet.create({
    styles
    */
   container: {
-    backgroundColor: "#FFC0CBAA",
+    backgroundColor: "#185336",
     flex: 1, // dis au conteneur de prendre tout l'espace disponible
     /**
      * ici flex permet de gérer l'occupation de l'espace d'un élément dans son conteneur.
