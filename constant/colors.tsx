@@ -1,23 +1,24 @@
 // l'idée c'est de créer une constante qui contient déjà toutes les couleurs
-// les couleurs sont réparties dans des propriétés light et dark pour les modes du même non
+// les couleurs sont réparties dans des propriétés light et dark pour les modes du même non,
+// c'est une bonne pratique à conserver
 export const colors = {
   light: {
     identity: "#DC0A2D",
-    dark: "#212121",
-    medium: "666666",
-    light: "E0E0E0",
-    background: "EFEFEF",
-    white: "FFFFFF",
+    grayDark: "#212121",
+    grayMedium: "#666666",
+    grayLight: "#E0E0E0",
+    grayBackground: "#EFEFEF",
+    grayWhite: "#FFFFFF",
   },
   dark: {
     identity: "#185336",
-    dark: "#212121",
-    medium: "666666",
-    light: "E0E0E0",
-    background: "EFEFEF",
-    white: "FFFFFF",
+    grayDark: "#212121",
+    grayMedium: "#666666",
+    grayLight: "#E0E0E0",
+    grayBackground: "#EFEFEF",
+    grayWhite: "#FFFFFF",
   },
-  // couleur pour les types de pokemon
+  // couleur pour les types de pokemon, c'est propre à ce projet
   pokeType: {
     Bug: "#A7B723",
     Dark: "#75574C",
