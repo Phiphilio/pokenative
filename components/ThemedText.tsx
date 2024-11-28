@@ -1,3 +1,5 @@
+import { colors } from "@/constant/colors";
+import { useThemeColors } from "@/hooks/useThemeColors";
 import { StyleSheet, Text } from "react-native";
 import { TextProps } from "react-native/Libraries/Text/Text";
 
@@ -29,11 +31,28 @@ type props = TextProps & {
    *keyof : Extrait les noms des clés de ce type (les clés de styles
    *En résumé, keyof typeof styles signifie : "Les noms des clés de l'objet styles."
    */
-  color?: string;
+  color?: keyof (typeof colors)["light"]; // on récupère tout ce que contient la propriété light
 };
 
 export function ThemedText({ variant, color, ...rest }: props) {
-  return <Text style={styles[variant ?? "body3"]} {...rest} />;
+  const colors = useThemeColors();
+  // la constante colors contient l'objet contenu dans la propriété selon que c'est light ou dark
+  //console.log(colors);
+  return (
+    <Text
+      style={[
+        styles[variant ?? "body3"],
+        { color: colors[color ?? "grayDark"] },
+        //console.log(color),
+        /**
+         * on a créé un tableau pour que la proprité style du composant Text puisse gérer plusieurs style en même temps
+         * comme pour la cascade en css, les derniers s'appliquent en priorité
+         *
+         */
+      ]}
+      {...rest}
+    />
+  );
 }
 
 const styles = StyleSheet.create({
