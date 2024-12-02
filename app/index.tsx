@@ -29,7 +29,6 @@ export default function Index() {
       style={[styles.container, { backgroundColor: colors.identity }]}
     >
       <Card>
-        {" "}
         <ThemedText variant="headline" color="grayDark">
           Pokedex
         </ThemedText>

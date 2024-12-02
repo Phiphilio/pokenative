@@ -34,7 +34,7 @@ type props = TextProps & {
   color?: keyof (typeof colors)["light"]; // on récupère tout ce que contient la propriété light
 };
 
-export function ThemedText({ variant, color, ...rest }: props) {
+export function ThemedText({ variant, color, style, ...rest }: props) {
   const colors = useThemeColors();
   // la constante colors contient l'objet contenu dans la propriété selon que c'est light ou dark
   //console.log(colors);
@@ -43,6 +43,7 @@ export function ThemedText({ variant, color, ...rest }: props) {
       style={[
         styles[variant ?? "body3"],
         { color: colors[color ?? "grayDark"] },
+        style,
         //console.log(color),
         /**
          * on a créé un tableau pour que la proprité style du composant Text puisse gérer plusieurs style en même temps
