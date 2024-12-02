@@ -2,6 +2,8 @@ import { StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemedText } from "@/components/ThemedText";
+import { useThemeColors } from "@/hooks/useThemeColors";
+import { Card } from "@/components/card";
 
 /**
  * StyleSheet, Text, View sont des bouts de codes que je peux réutiliser,
@@ -21,11 +23,17 @@ import { ThemedText } from "@/components/ThemedText";
  */
 
 export default function Index() {
+  const colors = useThemeColors();
   return (
-    <SafeAreaView style={styles.container}>
-      <ThemedText variant="headline" color="grayWhite">
-        Pokedex
-      </ThemedText>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: colors.identity }]}
+    >
+      <Card>
+        {" "}
+        <ThemedText variant="headline" color="grayDark">
+          Pokedex
+        </ThemedText>
+      </Card>
     </SafeAreaView>
   );
 }
@@ -45,7 +53,6 @@ const styles = StyleSheet.create({
    styles
    */
   container: {
-    backgroundColor: "#185336",
     flex: 1, // dis au conteneur de prendre tout l'espace disponible
     /**
      * ici flex permet de gérer l'occupation de l'espace d'un élément dans son conteneur.
