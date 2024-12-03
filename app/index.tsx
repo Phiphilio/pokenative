@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemedText } from "@/components/ThemedText";
@@ -28,11 +28,23 @@ export default function Index() {
     <SafeAreaView
       style={[styles.container, { backgroundColor: colors.identity }]}
     >
-      <Card>
-        <ThemedText variant="headline" color="grayDark">
+      <View style={styles.header}>
+        <Image
+          source={require("@/assets/images/pokeball.png")}
+          /**
+           * require() est utilisé pour inclure des ressources statiques locales dans React Native.
+           * Quand on dit locale, ça veut dire que c'est dans les fichiers de l'application, donc pas besoin de connexion internet.
+           *Cela garantit des performances optimales et une compatibilité multiplateforme.
+           *Si tu as besoin de charger des images dynamiques ou via une URL, utilise { uri: "..." } à la place de require.
+           */
+          width={24}
+          height={24}
+        />
+        <ThemedText variant="headline" color="grayWhite">
           Pokedex
         </ThemedText>
-      </Card>
+      </View>
+      <Card style={styles.body}></Card>
     </SafeAreaView>
   );
 }
@@ -53,10 +65,21 @@ const styles = StyleSheet.create({
    */
   container: {
     flex: 1, // dis au conteneur de prendre tout l'espace disponible
+    padding: 4,
     /**
      * ici flex permet de gérer l'occupation de l'espace d'un élément dans son conteneur.
      * En css, il aurait besoin d'autres propriétés (comme flex-grow, width ou height)
      *  pour gérer la taille de son élément
      *  */
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 16,
+    padding: 12,
+    paddingBottom: 24,
+  },
+  body: {
+    flex: 1,
   },
 });
