@@ -1,26 +1,19 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { FlatList, Image, StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemedText } from "@/components/ThemedText";
 import { useThemeColors } from "@/hooks/useThemeColors";
 import { Card } from "@/components/card";
 
-/**
- * StyleSheet, Text, View sont des bouts de codes que je peux réutiliser,
- * importer et exporter.
- * StyleSheet en revanche est un module, un bout de code qui a un rôle purement interne à mon code.
- * les modules peuvent faire des calculs, faire des requête API, fournir des constantes etc.
- * les modules peuvent être des objets(comme StyleSheet), des fonctions utilitaires, des classes, des constantes
- * ou même des combinaisons de tous ces éléments.
- *
- * Par contre, Text et View sont des composants.
- * les composant sont des fonctions ou des classes qui ont pour rôle de générer un élément graphique.
- * ça peut être un bouton, une image, du texte, etc.
- * les composants ne sont utilisables que dans le cadre de react-native (et react)
- * de nos jours on utilise plus les composants qui sont des fonctions
- *
- *
- */
+type Item = {
+  id: string;
+  name: string;
+};
+const data: Item[] = [
+  { id: "1", name: "Pikachu" },
+  { id: "2", name: "Charmander" },
+  { id: "3", name: "Bulbasaur" },
+];
 
 export default function Index() {
   const colors = useThemeColors();
@@ -32,11 +25,10 @@ export default function Index() {
         <Image
           source={require("@/assets/images/pokeball.png")}
           /**
-           * require() est utilisé pour inclure des ressources statiques locales dans React Native.
+           * la fonction require() est utilisé pour inclure des ressources statiques locales dans React Native.
            * Quand on dit locale, ça veut dire que c'est dans les fichiers de l'application, donc pas besoin de connexion internet.
            *Cela garantit des performances optimales et une compatibilité multiplateforme.
            *Si tu as besoin de charger des images dynamiques ou via une URL, utilise { uri: "..." } à la place de require.
-           
            */
           width={24}
           height={24}
@@ -45,7 +37,16 @@ export default function Index() {
           Pokedex
         </ThemedText>
       </View>
-      <Card style={styles.body}></Card>
+      <Card style={styles.body}>
+        <FlatList
+          data={data}
+          renderItem={({ item }) => (
+            <View>
+              <Text>{item.name}</Text>
+            </View>
+          )}
+        />
+      </Card>
     </SafeAreaView>
   );
 }
