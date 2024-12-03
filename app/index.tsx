@@ -9,10 +9,14 @@ type Item = {
   id: string;
   name: string;
 };
-const data: Item[] = [
+const tonton: Item[] = [
   { id: "1", name: "Pikachu" },
-  { id: "2", name: "Charmander" },
-  { id: "3", name: "Bulbasaur" },
+  { id: "2", name: "Salamèche" },
+  { id: "3", name: "Bulbizarre" },
+  { id: "4", name: "Pichu" },
+  { id: "5", name: "tiplouf" },
+  { id: "6", name: "tortipous" },
+  { id: "7", name: "torttank" },
 ];
 
 export default function Index() {
@@ -39,11 +43,14 @@ export default function Index() {
       </View>
       <Card style={styles.body}>
         <FlatList
-          data={data}
+          data={tonton} // propriété qui récupère le tableau
+          numColumns={3} // propriété qui organise les éléments sous forme de colonne
+          columnWrapperStyle={styles.gridGap} // propriété qui gère l'espacement horizontal
+          contentContainerStyle={[styles.gridGap, styles.list]} //propriété qui gère l'espacement vertical
           renderItem={({ item }) => (
-            <View>
+            <Card style={{ flex: 1 / 3 }}>
               <Text>{item.name}</Text>
-            </View>
+            </Card>
           )}
         />
       </Card>
@@ -83,5 +90,14 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
+  },
+  gridGap: {
+    gap: 8,
+  },
+  list: {
+    paddingBottom: 0,
+    paddingLeft: 12,
+    paddingRight: 12,
+    paddingTop: 24,
   },
 });
