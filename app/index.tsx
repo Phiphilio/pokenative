@@ -36,6 +36,7 @@ export default function Index() {
            * Quand on dit locale, ça veut dire que c'est dans les fichiers de l'application, donc pas besoin de connexion internet.
            *Cela garantit des performances optimales et une compatibilité multiplateforme.
            *Si tu as besoin de charger des images dynamiques ou via une URL, utilise { uri: "..." } à la place de require.
+           
            */
           width={24}
           height={24}
