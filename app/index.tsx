@@ -17,6 +17,13 @@ const tonton: Item[] = [
   { id: "5", name: "tiplouf" },
   { id: "6", name: "tortipous" },
   { id: "7", name: "torttank" },
+  { id: "8", name: "Pikachu" },
+  { id: "9", name: "Salamèche" },
+  { id: "10", name: "Bulbizarre" },
+  { id: "11", name: "Pichu" },
+  { id: "12", name: "tiplouf" },
+  { id: "13", name: "tortipous" },
+  { id: "14", name: "torttank" },
 ];
 
 export default function Index() {
@@ -44,11 +51,11 @@ export default function Index() {
       <Card style={styles.body}>
         <FlatList
           data={tonton} // propriété qui récupère le tableau
-          numColumns={3} // propriété qui organise les éléments sous forme de colonne
-          columnWrapperStyle={styles.gridGap} // propriété qui gère l'espacement horizontal
+          numColumns={3} // propriété qui organise les éléments sous forme de colonne. Quand je l'utilise, il y aura tjrs une erreur, mais il suffit de reload l'application
+          columnWrapperStyle={styles.gridGap} // propriété qui gère le style de chaque colonne. on ne peut l'utiliser que quand numColumns est au moins égale à 2
           contentContainerStyle={[styles.gridGap, styles.list]} //propriété qui gère l'espacement vertical
           renderItem={({ item }) => (
-            <Card style={{ flex: 1 / 3 }}>
+            <Card style={{ flex: 1 / 3, height: 200 }}>
               <Text>{item.name}</Text>
             </Card>
           )}
@@ -74,7 +81,7 @@ const styles = StyleSheet.create({
    */
   container: {
     flex: 1, // dis au conteneur de prendre tout l'espace disponible
-    padding: 4,
+    padding: 6,
     /**
      * ici flex permet de gérer l'occupation de l'espace d'un élément dans son conteneur.
      * En css, il aurait besoin d'autres propriétés (comme flex-grow, width ou height)
