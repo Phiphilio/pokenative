@@ -4,7 +4,7 @@ export const Shadow = {
   dp2: {
     // tout ça c'est dans le cadre de iOS
     shadowOpacity: 0.2,
-    shadowColor: "#148f43",
+    shadowColor: "black",
     shadowRadius: 3,
     shadowOffset: { width: 1, height: 1 },
     // dans le cadre de Android, on doit utiliser uniquement élevation ça :
