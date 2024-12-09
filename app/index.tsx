@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemedText } from "@/components/ThemedText";
 import { useThemeColors } from "@/hooks/useThemeColors";
 import { Card } from "@/components/card";
+import { Card2 } from "@/components/card2";
 
 type Item = {
   id: string;
@@ -48,19 +49,21 @@ export default function Index() {
           Pokedex
         </ThemedText>
       </View>
-      <Card style={styles.body}>
-        <FlatList
-          data={tonton} // propriété qui récupère le tableau
-          numColumns={3} // propriété qui organise les éléments sous forme de colonne. Quand je l'utilise, il y aura tjrs une erreur, mais il suffit de reload l'application
-          columnWrapperStyle={styles.gridGap} // propriété qui gère le style de chaque colonne. on ne peut l'utiliser que quand numColumns est au moins égale à 2
-          contentContainerStyle={[styles.gridGap, styles.list]} //propriété qui gère l'espacement vertical
-          renderItem={({ item }) => (
-            <Card style={{ flex: 1 / 3, height: 200 }}>
-              <Text>{item.name}</Text>
-            </Card>
-          )}
-        />
-      </Card>
+      {
+        <Card style={styles.body}>
+          <FlatList
+            data={tonton} // propriété qui récupère le tableau
+            numColumns={3} // propriété qui organise les éléments sous forme de colonne. Quand je l'utilise, il y aura tjrs une erreur, mais il suffit de reload l'application
+            columnWrapperStyle={styles.gridGap} // propriété qui gère le style de chaque colonne. on ne peut l'utiliser que quand numColumns est au moins égale à 2
+            contentContainerStyle={[styles.gridGap, styles.list]} //propriété qui gère l'espacement vertical
+            renderItem={({ item }) => (
+              <Card style={{ flex: 1 / 3, height: 200 }}>
+                <Text>{item.name}</Text>
+              </Card>
+            )}
+          />
+        </Card>
+      }
     </SafeAreaView>
   );
 }
