@@ -5,6 +5,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { useThemeColors } from "@/hooks/useThemeColors";
 import { Card } from "@/components/card";
 import { Card2 } from "@/components/card2";
+import { PokemonCard } from "@/components/pokemon/pokemonCard";
 
 type Item = {
   id: string;
@@ -25,6 +26,20 @@ const tonton: Item[] = [
   { id: "12", name: "tiplouf" },
   { id: "13", name: "tortipous" },
   { id: "14", name: "torttank" },
+  { id: "15", name: "Pikachu" },
+  { id: "16", name: "Salamèche" },
+  { id: "17", name: "Bulbizarre" },
+  { id: "18", name: "Pichu" },
+  { id: "19", name: "tiplouf" },
+  { id: "20", name: "tortipous" },
+  { id: "21", name: "torttank" },
+  { id: "22", name: "Pikachu" },
+  { id: "23", name: "Salamèche" },
+  { id: "24", name: "Bulbizarre" },
+  { id: "25", name: "Pichu" },
+  { id: "26", name: "tiplouf" },
+  { id: "27", name: "tortipous" },
+  { id: "28", name: "torttank" },
 ];
 
 export default function Index() {
@@ -57,9 +72,11 @@ export default function Index() {
             columnWrapperStyle={styles.gridGap} // propriété qui gère le style de chaque colonne. on ne peut l'utiliser que quand numColumns est au moins égale à 2
             contentContainerStyle={[styles.gridGap, styles.list]} //propriété qui gère l'espacement vertical
             renderItem={({ item }) => (
-              <Card style={{ flex: 1 / 3, height: 200 }}>
-                <Text>{item.name}</Text>
-              </Card>
+              <PokemonCard
+                id={item.id}
+                name={item.name}
+                style={{ flex: 1 / 3 }}
+              />
             )}
           />
         </Card>
