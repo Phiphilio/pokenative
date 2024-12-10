@@ -4,46 +4,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemedText } from "@/components/ThemedText";
 import { useThemeColors } from "@/hooks/useThemeColors";
 import { Card } from "@/components/card";
-import { Card2 } from "@/components/card2";
 import { PokemonCard } from "@/components/pokemon/pokemonCard";
-
-type Item = {
-  id: string;
-  name: string;
-};
-const tonton: Item[] = [
-  { id: "1", name: "Pikachu" },
-  { id: "2", name: "Salamèche" },
-  { id: "3", name: "Bulbizarre" },
-  { id: "4", name: "Pichu" },
-  { id: "5", name: "tiplouf" },
-  { id: "6", name: "tortipous" },
-  { id: "7", name: "torttank" },
-  { id: "8", name: "Pikachu" },
-  { id: "9", name: "Salamèche" },
-  { id: "10", name: "Bulbizarre" },
-  { id: "11", name: "Pichu" },
-  { id: "12", name: "tiplouf" },
-  { id: "13", name: "tortipous" },
-  { id: "14", name: "torttank" },
-  { id: "15", name: "Pikachu" },
-  { id: "16", name: "Salamèche" },
-  { id: "17", name: "Bulbizarre" },
-  { id: "18", name: "Pichu" },
-  { id: "19", name: "tiplouf" },
-  { id: "20", name: "tortipous" },
-  { id: "21", name: "torttank" },
-  { id: "22", name: "Pikachu" },
-  { id: "23", name: "Salamèche" },
-  { id: "24", name: "Bulbizarre" },
-  { id: "25", name: "Pichu" },
-  { id: "26", name: "tiplouf" },
-  { id: "27", name: "tortipous" },
-  { id: "28", name: "torttank" },
-];
+import { useFetchQuery } from "@/hooks/useFetchQuery";
+import { getPokemonId } from "@/functions/pokemon";
 
 export default function Index() {
   const colors = useThemeColors();
+  const { data } = useFetchQuery("/pokemon?limit=50");
+  const pokemon = data?.results ?? []; // si data existe tu prends la propriété résults sinon tu renvoies jsute un tableau
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: colors.identity }]}
@@ -67,13 +35,13 @@ export default function Index() {
       {
         <Card style={styles.body}>
           <FlatList
-            data={tonton} // propriété qui récupère le tableau
+            data={pokemon} // propriété qui récupère le tableau
             numColumns={3} // propriété qui organise les éléments sous forme de colonne. Quand je l'utilise, il y aura tjrs une erreur, mais il suffit de reload l'application
             columnWrapperStyle={styles.gridGap} // propriété qui gère le style de chaque colonne. on ne peut l'utiliser que quand numColumns est au moins égale à 2
             contentContainerStyle={[styles.gridGap, styles.list]} //propriété qui gère l'espacement vertical
             renderItem={({ item }) => (
               <PokemonCard
-                id={item.id}
+                id={getPokemonId(item.url)}
                 name={item.name}
                 style={{ flex: 1 / 3 }}
               />
