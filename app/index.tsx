@@ -1,4 +1,11 @@
-import { FlatList, Image, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { Link } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemedText } from "@/components/ThemedText";
@@ -10,7 +17,7 @@ import { getPokemonId } from "@/functions/pokemon";
 
 export default function Index() {
   const colors = useThemeColors();
-  const { data } = useFetchQuery("/pokemon?limit=50");
+  const { data, isFetching } = useFetchQuery("/pokemon?limit=50");
   const pokemon = data?.results ?? []; // si data existe tu prends la propriété résults sinon tu renvoies jsute un tableau
   return (
     <SafeAreaView
@@ -39,6 +46,15 @@ export default function Index() {
             numColumns={3} // propriété qui organise les éléments sous forme de colonne. Quand je l'utilise, il y aura tjrs une erreur, mais il suffit de reload l'application
             columnWrapperStyle={styles.gridGap} // propriété qui gère le style de chaque colonne. on ne peut l'utiliser que quand numColumns est au moins égale à 2
             contentContainerStyle={[styles.gridGap, styles.list]} //propriété qui gère l'espacement vertical
+            ListFooterComponent={
+              isFetching ? (
+                <ActivityIndicator color={colors.identity} />
+              ) : null /** 
+              condition ternaire si isFetching existe, ça veut dire que la requete est en cours d'envoie
+              dans ke cas où isFetching n'existe pas, il n'y a rien qui s'affiche.
+              ActivityIndicator affiche le cercle qui charge
+              */
+            }
             renderItem={({ item }) => (
               <PokemonCard
                 id={getPokemonId(item.url)}
