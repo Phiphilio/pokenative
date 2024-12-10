@@ -12,13 +12,15 @@ import { ThemedText } from "@/components/ThemedText";
 import { useThemeColors } from "@/hooks/useThemeColors";
 import { Card } from "@/components/card";
 import { PokemonCard } from "@/components/pokemon/pokemonCard";
-import { useFetchQuery } from "@/hooks/useFetchQuery";
+import { useFetchQuery, useInfiniteFetchQuery } from "@/hooks/useFetchQuery";
 import { getPokemonId } from "@/functions/pokemon";
 
 export default function Index() {
   const colors = useThemeColors();
-  const { data, isFetching } = useFetchQuery("/pokemon?limit=50");
-  const pokemon = data?.results ?? []; // si data existe tu prends la propriété résults sinon tu renvoies jsute un tableau
+  const { data, isFetching, fetchNextPage } =
+    useInfiniteFetchQuery("/pokemon?limit=21");
+  const pokemon = data?.pages.flatMap((page) => page.results) ?? []; // si data existe tu prends la propriété résults sinon tu renvoies jsute un tableau
+  //console.log(data);
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: colors.identity }]}
@@ -26,12 +28,6 @@ export default function Index() {
       <View style={styles.header}>
         <Image
           source={require("@/assets/images/pokeball.png")}
-          /**
-           * la fonction require() est utilisé pour inclure des ressources statiques locales dans React Native.
-           * Quand on dit locale, ça veut dire que c'est dans les fichiers de l'application, donc pas besoin de connexion internet.
-           *Cela garantit des performances optimales et une compatibilité multiplateforme.
-           *Si tu as besoin de charger des images dynamiques ou via une URL, utilise { uri: "..." } à la place de require.
-           */
           width={24}
           height={24}
         />
@@ -55,6 +51,7 @@ export default function Index() {
               ActivityIndicator affiche le cercle qui charge
               */
             }
+            onEndReached={() => fetchNextPage()}
             renderItem={({ item }) => (
               <PokemonCard
                 id={getPokemonId(item.url)}
