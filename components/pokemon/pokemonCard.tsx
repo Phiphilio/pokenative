@@ -54,10 +54,14 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
   },
   boxShadow: {
-    position: "absolute",
+    position: "absolute", // determine la position par rapport aux derniers parent ayant la position relative
     bottom: 0,
     left: 0,
     right: 0,
+    /**
+     * les positions bottom, left, right toutes à 0 disent au code : "il faut que cette section ait exactement la même position que le parent"
+     * c'est ça qui fait que c'est visible
+     */
     paddingLeft: 8,
     paddingRight: 8,
     paddingTop: 24,
