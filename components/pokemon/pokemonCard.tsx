@@ -4,17 +4,17 @@ import { Card } from "../card";
 import { useThemeColors } from "@/hooks/useThemeColors";
 
 type props = {
-  style?: ViewStyle; // correspond à toutes les valeurs que la propriété style peut recevoir.
+  stylos?: ViewStyle; // correspond à toutes les valeurs que la propriété style peut recevoir.
   id: number;
   name: string;
 };
-export function PokemonCard({ id, name, style }: props) {
+export function PokemonCard({ id, name, stylos }: props) {
   const colors = useThemeColors();
   return (
     <Pressable
       android_ripple={{ color: colors.identity, foreground: true }}
       style={
-        style /**le style qui est transmis au composaant pokemoncard est maintenant ici pour que les tailles restent les mêmes */
+        stylos /**le style qui est transmis au composaant pokemoncard est maintenant ici pour que les tailles restent les mêmes */
       }
     >
       <Card style={styles.card}>
