@@ -16,7 +16,9 @@ export function PokemonCard({ id, name, stylos }: props) {
       {/**
        * quand je  l'utilise Link avec expo-router , l'élément à l'interieur (élément enfant) est rendu (afficher) avec une balise <a>, d'où le fait qu'on puisse cliquer dessus.
        * et dans la mesure où j'utilise "asChild", les caractéristiques de la balise <a> sont transmises à l'élément enfant de Link.
-       * C'est comme si au lieu d'avoir <a><pressable/></a> j'ai <pressable/>
+       * C'est comme si au lieu d'avoir <a><pressable/></a> j'ai <pressable/>.
+       *
+       * Si je veux que l'élément enfant prenne directement en charge la navigation, je dois utiliser "asChild"
        */}
       <Pressable
         android_ripple={{ color: colors.identity, foreground: true }}
