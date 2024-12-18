@@ -17,6 +17,7 @@ import { getPokemonId } from "@/functions/pokemon";
 import { SearchBar } from "@/components/searchBar";
 import { useState } from "react";
 import { Row } from "@/components/row";
+import { FilterButton } from "@/components/filterButton";
 
 export default function Index() {
   const [text, onChangeText] = useState("");
@@ -39,8 +40,9 @@ export default function Index() {
             Pokédex
           </ThemedText>
         </Row>
-        <Row>
+        <Row gap={16}>
           <SearchBar text={text} changeText={onChangeText} />
+          <FilterButton />
         </Row>
       </View>
       {
