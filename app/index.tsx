@@ -14,8 +14,11 @@ import { Card } from "@/components/card";
 import { PokemonCard } from "@/components/pokemon/pokemonCard";
 import { useFetchQuery, useInfiniteFetchQuery } from "@/hooks/useFetchQuery";
 import { getPokemonId } from "@/functions/pokemon";
+import { SearchBar } from "@/components/searchBar";
+import { useState } from "react";
 
 export default function Index() {
+  const [text, onChangeText] = useState("search");
   const colors = useThemeColors();
   const { data, isFetching, fetchNextPage } =
     useInfiniteFetchQuery("/pokemon?limit=21");
@@ -35,6 +38,7 @@ export default function Index() {
           Pokedex
         </ThemedText>
       </View>
+      <SearchBar text={text} changeText={onChangeText} />
       {
         <Card style={styles.body}>
           <FlatList
@@ -56,7 +60,7 @@ export default function Index() {
               <PokemonCard
                 id={getPokemonId(item.url)}
                 name={item.name}
-                style={{ flex: 1 / 3 }}
+                stylos={{ flex: 1 / 3 }}
               />
             )}
           />
