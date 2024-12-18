@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   searchBar: {
     width: 280,
     height: 32,
-    borderRadius: 8,
+    borderRadius: 20,
     padding: 8,
   },
 });
