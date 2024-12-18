@@ -16,6 +16,7 @@ import { useFetchQuery, useInfiniteFetchQuery } from "@/hooks/useFetchQuery";
 import { getPokemonId } from "@/functions/pokemon";
 import { SearchBar } from "@/components/searchBar";
 import { useState } from "react";
+import { Row } from "@/components/row";
 
 export default function Index() {
   const [text, onChangeText] = useState("search");
@@ -28,17 +29,21 @@ export default function Index() {
     <SafeAreaView
       style={[styles.container, { backgroundColor: colors.identity }]}
     >
-      <View style={styles.header}>
-        <Image
-          source={require("@/assets/images/pokeball.png")}
-          width={24}
-          height={24}
-        />
-        <ThemedText variant="headline" color="grayWhite">
-          Pokedex
-        </ThemedText>
+      <View style={styles.headerBlock}>
+        <Row style={styles.header} gap={16}>
+          <Image
+            source={require("@/assets/images/pokeball.png")}
+            width={24}
+            height={24}
+          />
+          <ThemedText variant="headline" color="grayWhite">
+            Pokédex
+          </ThemedText>
+        </Row>
+        <Row>
+          <SearchBar text={text} changeText={onChangeText} />
+        </Row>
       </View>
-      <SearchBar text={text} changeText={onChangeText} />
       {
         <Card style={styles.body}>
           <FlatList
@@ -94,11 +99,9 @@ const styles = StyleSheet.create({
      *  */
   },
   header: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 16,
     padding: 12,
-    paddingBottom: 24,
+    paddingLeft: 0,
+    paddingBottom: 15,
   },
   body: {
     flex: 1,
@@ -111,5 +114,11 @@ const styles = StyleSheet.create({
     paddingLeft: 12,
     paddingRight: 12,
     paddingTop: 24,
+  },
+  headerBlock: {
+    padding: 12,
+    paddingBottom: 24,
+    alignItems: "flex-start",
+    gap: 0,
   },
 });
