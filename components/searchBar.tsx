@@ -14,7 +14,7 @@ export function SearchBar({ text, changeText }: props) {
     <Row style={[styles.searchBar, { backgroundColor: colors.grayWhite }]}>
       <Image
         source={require("@/assets/images/icon/search.png")}
-        style={{ height: 16, width: 16, tintColor: colors.identity }}
+        style={[styles.icon, { tintColor: colors.identity }]}
       />
       <TextInput
         style={styles.input}
@@ -37,10 +37,14 @@ const styles = StyleSheet.create({
     padding: 8,
     gap: 8,
   },
+  icon: {
+    height: 16,
+    width: 16,
+  },
   input: {
     flex: 1,
     fontSize: 15,
-    height: 40, // la heute posait problème
+    height: 40, // la hauteur posait problème
     lineHeight: 16,
     // color: "black",
   },
