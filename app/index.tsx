@@ -19,7 +19,7 @@ import { useState } from "react";
 import { Row } from "@/components/row";
 
 export default function Index() {
-  const [text, onChangeText] = useState("search");
+  const [text, onChangeText] = useState("");
   const colors = useThemeColors();
   const { data, isFetching, fetchNextPage } =
     useInfiniteFetchQuery("/pokemon?limit=21");
@@ -33,8 +33,7 @@ export default function Index() {
         <Row style={styles.header} gap={16}>
           <Image
             source={require("@/assets/images/pokeball.png")}
-            width={24}
-            height={24}
+            style={{ height: 24, width: 24 }}
           />
           <ThemedText variant="headline" color="grayWhite">
             Pokédex
