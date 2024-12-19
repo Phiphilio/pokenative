@@ -20,12 +20,45 @@ import { Row } from "@/components/row";
 import { FilterButton } from "@/components/filterButton";
 
 export default function Index() {
-  const [text, onChangeText] = useState("");
+  const [search, setSearch] = useState("");
   const colors = useThemeColors();
   const { data, isFetching, fetchNextPage } =
     useInfiniteFetchQuery("/pokemon?limit=21");
   const pokemon = data?.pages.flatMap((page) => page.results) ?? []; // si data existe tu prends la propriété résults sinon tu renvoies jsute un tableau
-  //console.log(data);
+  //console.log(pokemon);
+  /**
+   * data?.pages.flatMap((page) => page.results)
+   *
+   * - data?.pages contient un tableau d'objets.
+   * - flatMap combine map et flat :
+   *    1. Il parcourt chaque élément du tableau (ici, chaque objet `page`)
+   *       et applique la fonction de transformation `(page) => page.results`.
+   *    2. Il aplatit les résultats dans un tableau unique (équivalent à flat(1)).
+   *
+   * En résumé, flatMap crée un tableau rempli progressivement avec les résultats transformés,
+   * tout en supprimant un niveau de profondeur.
+   */
+  const filteredPokemon = search
+    ? pokemon.filter(
+        (poke) =>
+          poke.name.includes(search.toLowerCase()) ||
+          getPokemonId(poke.url).toString() === search
+      )
+    : pokemon;
+  /**
+   * la methode filter permet de s'assurer si chaque élément d'un tableau rempli une condition. Si cet élément la rempli, il sera stocké dans un autre tableau
+   * ensuite, on a 2 conditions dans notre cas :
+   *    1.poke.name.includes(search.toLowerCase())
+   *    2.getPokemonId(poke.url).toString() === search
+   *
+   * la première transforme d'abord la valeur de search en miniscule grâce à : search.toLowerCase(). Ensuite la methode includes() vérifie si le mot passé en
+   * paramètre est inclus dans poke.name
+   *
+   * la deuxieme utilise la fonction getPokemonId pour extraire l'id de l'url, comme l'id est un nombre, on l'a convertis en string et si il corrspond totalement
+   * à search, alors il est stocké dans le tableau de retour
+   */
+
+  //console.log(filteredPokemon);
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: colors.identity }]}
@@ -41,16 +74,16 @@ export default function Index() {
           </ThemedText>
         </Row>
         <Row gap={16}>
-          <SearchBar text={text} changeText={onChangeText} />
+          <SearchBar text={search} changeText={setSearch} />
           <FilterButton />
         </Row>
       </View>
       {
         <Card style={styles.body}>
           <FlatList
-            data={pokemon} // propriété qui récupère le tableau
+            data={filteredPokemon} // propriété qui récupère le tableau
             numColumns={3} // propriété qui organise les éléments sous forme de colonne. Quand je l'utilise, il y aura tjrs une erreur, mais il suffit de reload l'application
-            columnWrapperStyle={styles.gridGap} // propriété qui gère le style de chaque colonne. on ne peut l'utiliser que quand numColumns est au moins égale à 2
+            columnWrapperStyle={styles.gridGap} // propriété qui gère le style de chaque colonne. on ne peut l'utiliser que quand numColumns >= 2
             contentContainerStyle={[styles.gridGap, styles.list]} //propriété qui gère l'espacement vertical
             ListFooterComponent={
               isFetching ? (
@@ -61,7 +94,7 @@ export default function Index() {
               ActivityIndicator affiche le cercle qui charge
               */
             }
-            onEndReached={() => fetchNextPage()}
+            onEndReached={search ? undefined : () => fetchNextPage()}
             renderItem={({ item }) => (
               <PokemonCard
                 id={getPokemonId(item.url)}
