@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   list: {
-    paddingBottom: 0,
+    paddingBottom: 24,
     paddingLeft: 12,
     paddingRight: 12,
     paddingTop: 24,
