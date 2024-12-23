@@ -21,11 +21,15 @@ import { FilterButton } from "@/components/filterButton";
 
 export default function Index() {
   const [search, setSearch] = useState("");
+  const [sortKey, setSortKey] = useState<"id" | "name">("id");
   const colors = useThemeColors();
   const { data, isFetching, fetchNextPage } =
     useInfiniteFetchQuery("/pokemon?limit=21");
-  const pokemon = data?.pages.flatMap((page) => page.results) ?? []; // si data existe tu prends la propriété résults sinon tu renvoies jsute un tableau
-  //console.log(data.pages.results);
+  const pokemon =
+    data?.pages.flatMap((page) =>
+      page.results.map((r) => ({ name: r.name, id: getPokemonId(r.url) }))
+    ) ?? []; // si data existe tu prends la propriété résults sinon tu renvoies jsute un tableau
+  // console.log(pokemon);
   /**
    * data?.pages.flatMap((page) => page.results)
    *
@@ -38,13 +42,16 @@ export default function Index() {
    * En résumé, flatMap crée un tableau rempli progressivement avec les résultats transformés,
    * tout en supprimant un niveau de profondeur.
    */
-  const filteredPokemon = search
-    ? pokemon.filter(
-        (poke) =>
-          poke.name.includes(search.toLowerCase()) ||
-          getPokemonId(poke.url).toString() === search
-      )
-    : pokemon;
+  const filteredPokemon = [
+    ...(search
+      ? pokemon.filter(
+          (poke) =>
+            poke.name.includes(search.toLowerCase()) ||
+            poke.id.toString() === search
+        )
+      : pokemon),
+  ].sort((a, b) => (a[sortKey] < b[sortKey] ? -1 : 1));
+
   /**
    * la methode filter permet de s'assurer si chaque élément d'un tableau rempli une condition. Si cet élément la rempli, il sera stocké dans un autre tableau
    * ensuite, on a 2 conditions dans notre cas :
@@ -97,7 +104,7 @@ export default function Index() {
             onEndReached={search ? undefined : () => fetchNextPage()}
             renderItem={({ item }) => (
               <PokemonCard
-                id={getPokemonId(item.url)}
+                id={item.id}
                 name={item.name}
                 stylos={{ flex: 1 / 3 }}
               />
