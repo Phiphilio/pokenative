@@ -25,7 +25,7 @@ export default function Index() {
   const { data, isFetching, fetchNextPage } =
     useInfiniteFetchQuery("/pokemon?limit=21");
   const pokemon = data?.pages.flatMap((page) => page.results) ?? []; // si data existe tu prends la propriété résults sinon tu renvoies jsute un tableau
-  //console.log(pokemon);
+  //console.log(data.pages.results);
   /**
    * data?.pages.flatMap((page) => page.results)
    *
