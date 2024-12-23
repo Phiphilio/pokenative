@@ -37,7 +37,7 @@ export function FilterButton({ valeur, onChange }: props) {
         transparent={true}
         animationType="fade"
         onRequestClose={modalDesactiver}
-        backdropColor="white"
+        //backdropColor="white"
       >
         <View style={styles.modalContainer}>
           <View
