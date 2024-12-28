@@ -3,6 +3,8 @@ import { useState } from "react";
 import { StyleSheet, View, Image, Pressable, Modal, Text } from "react-native";
 import { ThemedText } from "./ThemedText";
 import { Card } from "./card";
+import { Row } from "./row";
+import { Radio } from "./radio";
 
 type props = {
   valeur: "id" | "name";
@@ -13,6 +15,12 @@ type props = {
    */
   onChange: (v: "id" | "name") => void;
 };
+
+const options = [
+  { label: "Number", value: "id" },
+  { label: "Name", value: "name" },
+];
+
 export function FilterButton({ valeur, onChange }: props) {
   const colors = useThemeColors();
   const [modalVisibility, modalVisible] = useState(false);
@@ -23,6 +31,7 @@ export function FilterButton({ valeur, onChange }: props) {
   const modalDesactiver = () => {
     modalVisible(false);
   };
+
   return (
     <>
       <Pressable
@@ -60,7 +69,13 @@ export function FilterButton({ valeur, onChange }: props) {
                 Sort by :
               </ThemedText>
               <Card style={styles.modalCardStyle}>
-                <Text>test</Text>
+                {options.map((o) => (
+                  /** quand react afiche plusieurs fois les mêmes composants, ces composants doivent avoir la propriété key pour se distinguer les uns des autres */
+                  <Row key={o.value} gap={8}>
+                    <Radio checked={"true"} />
+                    <ThemedText>{o.label}</ThemedText>
+                  </Row>
+                ))}
               </Card>
             </View>
           </View>
