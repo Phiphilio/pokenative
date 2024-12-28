@@ -6,6 +6,11 @@ import { Card } from "./card";
 
 type props = {
   valeur: "id" | "name";
+  /**
+   * "id" et "name" sont des types litteraux, c'est à dire que valeur ne peut être que "id"
+   * ou la valeur "name".
+   * si j'avais écrit valeur: 1|2, alors valeur ne pourrait être que 1 ou 2 et rien d'autre
+   */
   onChange: (v: "id" | "name") => void;
 };
 export function FilterButton({ valeur, onChange }: props) {
@@ -20,7 +25,10 @@ export function FilterButton({ valeur, onChange }: props) {
   };
   return (
     <>
-      <Pressable onPress={modalActiver}>
+      <Pressable
+        onPress={modalActiver}
+        android_ripple={{ color: colors.identity, foreground: true }}
+      >
         <View style={[styles.forme, { backgroundColor: colors.grayWhite }]}>
           <Image
             source={
@@ -39,22 +47,24 @@ export function FilterButton({ valeur, onChange }: props) {
         onRequestClose={modalDesactiver}
         //backdropColor="white"
       >
-        <View style={styles.modalContainer}>
-          <View
-            style={[styles.modalView, { backgroundColor: colors.identity }]}
-          >
-            <ThemedText
-              variant="subtitle2"
-              color="grayWhite"
-              style={styles.modalTextSyle}
+        <Pressable style={styles.backdropColor} onPress={modalDesactiver}>
+          <View style={styles.modalContainer}>
+            <View
+              style={[styles.modalView, { backgroundColor: colors.identity }]}
             >
-              Sort by :
-            </ThemedText>
-            <Card style={styles.modalCardStyle}>
-              <Text>test</Text>
-            </Card>
+              <ThemedText
+                variant="subtitle2"
+                color="grayWhite"
+                style={styles.modalTextSyle}
+              >
+                Sort by :
+              </ThemedText>
+              <Card style={styles.modalCardStyle}>
+                <Text>test</Text>
+              </Card>
+            </View>
           </View>
-        </View>
+        </Pressable>
       </Modal>
     </>
   );
@@ -72,6 +82,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flex: 1,
+  },
+  backdropColor: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.3)",
   },
   modalView: {
     borderRadius: 8,
