@@ -49,6 +49,7 @@ export function FilterButton({ valeur, onChange }: props) {
           />
         </View>
       </Pressable>
+
       <Modal
         visible={modalVisibility}
         transparent={true}
@@ -70,11 +71,24 @@ export function FilterButton({ valeur, onChange }: props) {
               </ThemedText>
               <Card style={styles.modalCardStyle}>
                 {options.map((o) => (
-                  /** quand react afiche plusieurs fois les mêmes composants, ces composants doivent avoir la propriété key pour se distinguer les uns des autres */
-                  <Row key={o.value} gap={8}>
-                    <Radio checked={"true"} />
-                    <ThemedText>{o.label}</ThemedText>
-                  </Row>
+                  /** quand react affiche plusieurs fois les mêmes composants, ces composants doivent avoir la propriété key pour se distinguer les uns des autres */
+                  <Pressable
+                    key={o.value}
+                    onPressIn={() => {
+                      onChange(o.value);
+                    }}
+                    style={styles.modalInnerCardStyle}
+                  >
+                    <Row key={o.value} gap={8}>
+                      <Radio checked={valeur === o.value} />
+                      {/** l'expression :valeur === o.value sera true quand le bouton sera cliquer
+                       * pour la simple raison que onChange prend en paramètre la valeur de o.value.
+                       * Voici comment faire pour que lorsqu'un bouton est activer, un ou plusieurs autres sont désactiver
+                       *
+                       */}
+                      <ThemedText>{o.label}</ThemedText>
+                    </Row>
+                  </Pressable>
                 ))}
               </Card>
             </View>
@@ -122,5 +136,11 @@ const styles = StyleSheet.create({
     paddingRight: 12,
     height: 80,
     width: 105,
+  },
+  modalInnerCardStyle: {
+    flex: 1,
+    //alignItems: "center",
+    // justifyContent: "center",
+    gap: 8,
   },
 });
