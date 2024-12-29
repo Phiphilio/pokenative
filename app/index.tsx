@@ -50,7 +50,12 @@ export default function Index() {
             poke.id.toString() === search
         )
       : pokemon),
-  ].sort((a, b) => (a[sortKey] < b[sortKey] ? -1 : 1));
+  ].sort((a, b) =>
+    a[sortKey] < b[sortKey] ? -1 : 1
+  ); /** la methode sort s'attend à recevoir -1 pour conserver l'ordre et 1 pour le modifier
+  il se base sur l'ordre de la table ascii.
+  d'ailleurs dans le cas des lettres, il faut savoir qu'elles sont toutes passées en majuscule au préalable dans le premier tableau
+  */
 
   /**
    * la methode filter permet de s'assurer si chaque élément d'un tableau rempli une condition. Si cet élément la rempli, il sera stocké dans un autre tableau
@@ -82,7 +87,7 @@ export default function Index() {
         </Row>
         <Row gap={16}>
           <SearchBar text={search} changeText={setSearch} />
-          <FilterButton />
+          <FilterButton valeur={sortKey} onChange={setSortKey} />
         </Row>
       </View>
       {
