@@ -2,7 +2,7 @@ import { Image, StyleSheet, ViewStyle, View, Pressable } from "react-native";
 import { ThemedText } from "../ThemedText";
 import { Card } from "../card";
 import { useThemeColors } from "@/hooks/useThemeColors";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 
 type props = {
   stylos?: ViewStyle; // correspond à toutes les valeurs que la propriété style peut recevoir.
@@ -11,48 +11,49 @@ type props = {
 };
 export function PokemonCard({ id, name, stylos }: props) {
   const colors = useThemeColors();
+  const router = useRouter();
+
+  const lienDynamique = () => {
+    router.push({
+      pathname: "/pokemon/[id]",
+      params: { id: id, name: name },
+    });
+  };
+  /**
+   * j'ai remplacé le composant Link par le hook useRouter qui me permet de gérer la navigation de façon plus programmatique
+   * maintenat je peux naviguer juste en  remplissant des condition ou des actions plus spécifiques.
+   */
   return (
-    <Link href={{ pathname: "/pokemon/[id]", params: { id: id } }} asChild>
-      {/**
-       * quand je  l'utilise Link avec expo-router , l'élément à l'interieur (élément enfant) est rendu (afficher) avec une balise <a>, d'où le fait qu'on puisse cliquer dessus.
-       * et dans la mesure où j'utilise "asChild", les caractéristiques de la balise <a> sont transmises à l'élément enfant de Link.
-       * C'est comme si au lieu d'avoir <a><pressable/></a> j'ai <pressable/>.
-       *
-       * Si je veux que l'élément enfant prenne directement en charge la navigation, je dois utiliser "asChild"
-       */}
-      <Pressable
-        android_ripple={{ color: colors.identity, foreground: true }}
-        style={
-          stylos /**le style qui est transmis au composaant pokemoncard est maintenant ici pour que les tailles restent les mêmes */
-        }
-      >
-        <Card style={styles.card}>
-          <View
-            style={[
-              styles.boxShadow,
-              { backgroundColor: colors.grayBackground },
-            ]}
-          />
-          {/** le fait de mettre la vue correspondant à l'effet de gris au début de la card fait que tous les autres éléments de la card s'affichent par
+    <Pressable
+      android_ripple={{ color: colors.identity, foreground: true }}
+      style={
+        stylos /**le style qui est transmis au composaant pokemoncard est maintenant ici pour que les tailles restent les mêmes */
+      }
+      onPress={lienDynamique}
+    >
+      <Card style={styles.card}>
+        <View
+          style={[styles.boxShadow, { backgroundColor: colors.grayBackground }]}
+        />
+        {/** le fait de mettre la vue correspondant à l'effet de gris au début de la card fait que tous les autres éléments de la card s'affichent par
       dessus. pas besoin de jouer avec l'opacité */}
-          <ThemedText
-            style={styles.textNumber}
-            variant="caption"
-            color="grayMedium"
-          >
-            #{id.toString().padStart(3, "0")}
-          </ThemedText>
-          <Image
-            source={{
-              uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`,
-            }}
-            width={72}
-            height={72}
-          />
-          <ThemedText>{name}</ThemedText>
-        </Card>
-      </Pressable>
-    </Link>
+        <ThemedText
+          style={styles.textNumber}
+          variant="caption"
+          color="grayMedium"
+        >
+          #{id.toString().padStart(3, "0")}
+        </ThemedText>
+        <Image
+          source={{
+            uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`,
+          }}
+          width={72}
+          height={72}
+        />
+        <ThemedText>{name}</ThemedText>
+      </Card>
+    </Pressable>
   );
 }
 
