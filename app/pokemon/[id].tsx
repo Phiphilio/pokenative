@@ -12,6 +12,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { Row } from "@/components/row";
 import { useFetchQuery } from "@/hooks/useFetchQuery";
 import { colors } from "@/constant/colors";
+import { Card } from "@/components/card";
 
 export default function Pokemon() {
   const params = useLocalSearchParams();
@@ -70,6 +71,9 @@ export default function Pokemon() {
           #{params.id.padStart(3, "0")}
         </ThemedText>
       </Row>
+      <Card style={styles.card}>
+        <Text> test</Text>
+      </Card>
     </SafeAreaView>
   );
 }
@@ -100,5 +104,9 @@ const styles = StyleSheet.create({
     right: 1,
     width: 208,
     height: 208,
+  },
+  card: {
+    flex: 2 / 3,
+    margin: 4,
   },
 });
