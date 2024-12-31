@@ -46,6 +46,10 @@ export default function Pokemon() {
         },
       ]}
     >
+      <Image
+        source={require("@/assets/images/icon/pokeball.png")}
+        style={[styles.pokeball, { tintColor: "rgba(255, 255, 255, 0.2)" }]}
+      />
       <Row style={styles.header} gap={8}>
         <Pressable
           android_ripple={{ color: colory.identity, foreground: true }}
@@ -90,5 +94,11 @@ const styles = StyleSheet.create({
   },
   pokemonName: {
     paddingRight: 150,
+  },
+  pokeball: {
+    position: "absolute",
+    right: 1,
+    width: 208,
+    height: 208,
   },
 });
