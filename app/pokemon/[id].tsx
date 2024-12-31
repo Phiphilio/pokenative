@@ -16,6 +16,10 @@ import { colors } from "@/constant/colors";
 export default function Pokemon() {
   const params = useLocalSearchParams();
   const { data, isLoading } = useFetchQuery("/pokemon/[id]", { id: params.id });
+  /** je récupère isLoading pour gérer le fait que data soit d'abord une promesse,
+   * ça me permet d'éviter les erreurs où j'essaie d'accéder à des propriétés qui n'existent pas encore
+   *
+   *  */
   const colory = useThemeColors();
   const pokemonColors = colors.pokeType;
   const typeName =
