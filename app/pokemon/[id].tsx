@@ -11,13 +11,17 @@ import { useThemeColors } from "@/hooks/useThemeColors";
 import { ThemedText } from "@/components/ThemedText";
 import { Row } from "@/components/row";
 import { useFetchQuery } from "@/hooks/useFetchQuery";
+import { colors } from "@/constant/colors";
 
 export default function Pokemon() {
   const params = useLocalSearchParams();
-  const { data } = useFetchQuery("/pokemon/[id]", { id: params.id });
-  const colors = useThemeColors();
+  const { data, isLoading } = useFetchQuery("/pokemon/[id]", { id: params.id });
+  const colory = useThemeColors();
+  const pokemonColors = colors.pokeType;
+  const typeName =
+    data !== undefined ? data.types.map((t) => t.type)[0].name : {}; // si data === undefine, on renvoie un objet vide, sinon on récupère la valeur du nom
 
-  console.log(data);
+  console.log(typeName);
   const router = useRouter();
 
   const retourArriere = () => {
@@ -29,25 +33,32 @@ export default function Pokemon() {
    */
   return (
     <SafeAreaView
-      style={[styles.container, { backgroundColor: colors.identity }]}
+      style={[
+        styles.container,
+        {
+          backgroundColor: isLoading
+            ? colory.identity
+            : pokemonColors[typeName],
+        },
+      ]}
     >
       <Row style={styles.header} gap={8}>
         <Pressable
-          android_ripple={{ color: colors.identity, foreground: true }}
+          android_ripple={{ color: colory.identity, foreground: true }}
           onPress={retourArriere}
         >
           <Image
             source={require("@/assets/images/icon/arrow_back.png")}
-            style={[styles.arrowBack, { tintColor: colors.grayWhite }]}
+            style={[styles.arrowBack, { tintColor: colory.grayWhite }]}
           />
         </Pressable>
         <ThemedText
           variant="headline"
-          style={[styles.pokemonName, { color: colors.grayWhite }]}
+          style={[styles.pokemonName, { color: colory.grayWhite }]}
         >
           {params.name}
         </ThemedText>
-        <ThemedText variant="subtitle2" style={{ color: colors.grayWhite }}>
+        <ThemedText variant="subtitle2" style={{ color: colory.grayWhite }}>
           #{params.id.padStart(3, "0")}
         </ThemedText>
       </Row>
