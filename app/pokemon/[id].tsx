@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Image,
   Pressable,
   SafeAreaView,
@@ -13,6 +14,7 @@ import { Row } from "@/components/row";
 import { useFetchQuery } from "@/hooks/useFetchQuery";
 import { colors } from "@/constant/colors";
 import { Card } from "@/components/card";
+import { PokeBallImage } from "@/components/pokemon/pokeballImage";
 
 export default function Pokemon() {
   const params = useLocalSearchParams();
@@ -37,48 +39,73 @@ export default function Pokemon() {
    * dans l'url
    */
   return (
-    <SafeAreaView
-      style={[
-        styles.container,
-        {
-          backgroundColor: isLoading
-            ? colory.identity
-            : pokemonColors[typeName],
-        },
-      ]}
-    >
-      <Image
-        source={require("@/assets/images/icon/pokeball.png")}
-        style={[styles.pokeball, { tintColor: "rgba(255, 255, 255, 0.2)" }]}
-      />
-      <Row style={styles.header} gap={8}>
-        <Pressable
-          android_ripple={{ color: colory.identity, foreground: true }}
-          onPress={retourArriere}
+    <>
+      {isLoading ? (
+        <SafeAreaView
+          style={[styles.waitingScreen, { backgroundColor: colory.identity }]}
         >
-          <Image
-            source={require("@/assets/images/icon/arrow_back.png")}
-            style={[styles.arrowBack, { tintColor: colory.grayWhite }]}
+          <PokeBallImage
+            style={[
+              styles.waitingScreenPokeball,
+              { tintColor: "rgba(255, 255, 255, 0.7)" },
+            ]}
           />
-        </Pressable>
-        <ThemedText
-          variant="headline"
-          style={[styles.pokemonName, { color: colory.grayWhite }]}
+          <ActivityIndicator size="large" color="white" />
+        </SafeAreaView>
+      ) : (
+        <SafeAreaView
+          style={[
+            styles.container,
+            {
+              backgroundColor: isLoading
+                ? colory.identity
+                : pokemonColors[typeName as keyof typeof pokemonColors], // prends la même structure qu'une propriété de l'objet pokemonColors
+            },
+          ]}
         >
-          {params.name}
-        </ThemedText>
-        <ThemedText variant="subtitle2" style={{ color: colory.grayWhite }}>
-          #{params.id.padStart(3, "0")}
-        </ThemedText>
-      </Row>
-      <Card style={styles.card}>
-        <Text> test</Text>
-      </Card>
-    </SafeAreaView>
+          <PokeBallImage
+            style={[styles.pokeball, { tintColor: "rgba(255, 255, 255, 0.2)" }]}
+          />
+          <Row style={styles.header} gap={8}>
+            <Pressable
+              android_ripple={{ color: colory.identity, foreground: true }}
+              onPress={retourArriere}
+            >
+              <Image
+                source={require("@/assets/images/icon/arrow_back.png")}
+                style={[styles.arrowBack, { tintColor: colory.grayWhite }]}
+              />
+            </Pressable>
+            <ThemedText
+              variant="headline"
+              style={[styles.pokemonName, { color: colory.grayWhite }]}
+            >
+              {params.name}
+            </ThemedText>
+            <ThemedText variant="subtitle2" style={{ color: colory.grayWhite }}>
+              #{params.id.padStart(3, "0")}
+            </ThemedText>
+          </Row>
+          <Card style={styles.card}>
+            <Text> test</Text>
+          </Card>
+        </SafeAreaView>
+      )}
+    </>
   );
 }
 
 const styles = StyleSheet.create({
+  waitingScreen: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  waitingScreenPokeball: {
+    position: "absolute",
+    width: 208,
+    height: 208,
+  },
   container: {
     flex: 1,
     /**
