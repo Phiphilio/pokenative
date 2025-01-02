@@ -45,7 +45,7 @@ export function useFetchQuery<T extends keyof API>(
    * data, isFetching, isLoading, error etc
    */
   return useQuery({
-    queryKey: [locallUrl],
+    queryKey: [[locallUrl, params]],
     /**
      * son rôle est de vérifier si notre locallUrl a déjà été utilisé pour une précédente requête.
      * si c'est le cas, ça veut dire que react-query a déjà stocké dans le cache les résultats de cette requête
