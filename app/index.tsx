@@ -18,6 +18,7 @@ import { SearchBar } from "@/components/searchBar";
 import { useState } from "react";
 import { Row } from "@/components/row";
 import { FilterButton } from "@/components/filterButton";
+import { PokeBallImage } from "@/components/pokemon/pokeballImage";
 
 export default function Index() {
   const [search, setSearch] = useState("");
@@ -77,10 +78,7 @@ export default function Index() {
     >
       <View style={styles.headerBlock}>
         <Row style={styles.header} gap={16}>
-          <Image
-            source={require("@/assets/images/pokeball.png")}
-            style={{ height: 24, width: 24 }}
-          />
+          <PokeBallImage style={{ height: 24, width: 24 }} />
           <ThemedText variant="headline" color="grayWhite">
             Pokédex
           </ThemedText>
