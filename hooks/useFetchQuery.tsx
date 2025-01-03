@@ -7,7 +7,7 @@ type API = {
     next: string | null;
     results: { name: string; url: string }[];
   };
-  "/pokemon/[id]/": {
+  "/pokemon/[id]": {
     id: number;
     name: string;
     url: string;
@@ -56,7 +56,7 @@ export function useFetchQuery<T extends keyof API>(
        * c'est ce quelle renvoie qui sera ensuite stocké dans la propriété data
        * de l'objet de retour.
        */
-      await wait(1); // fonction qui simule un léger temps d'attente
+      //await wait(1); // fonction qui simule un léger temps d'attente
       return fetch(endpoint + locallUrl).then((r) => r.json());
     },
   });
