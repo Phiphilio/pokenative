@@ -3,6 +3,7 @@ import { ThemedText } from "../ThemedText";
 import { Card } from "../card";
 import { useThemeColors } from "@/hooks/useThemeColors";
 import { Link, useRouter } from "expo-router";
+import { getPokemonArtwork } from "@/functions/pokemon";
 
 type props = {
   stylos?: ViewStyle; // correspond à toutes les valeurs que la propriété style peut recevoir.
@@ -46,7 +47,7 @@ export function PokemonCard({ id, name, stylos }: props) {
         </ThemedText>
         <Image
           source={{
-            uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`,
+            uri: getPokemonArtwork(id),
           }}
           width={72}
           height={72}
