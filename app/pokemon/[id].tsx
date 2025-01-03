@@ -16,6 +16,7 @@ import { colors } from "@/constant/colors";
 import { Card } from "@/components/card";
 import { PokeBallImage } from "@/components/pokemon/pokeballImage";
 import { getPokemonArtwork } from "@/functions/pokemon";
+import { TypeBadge } from "@/components/typeBadge";
 
 export default function Pokemon() {
   const params = useLocalSearchParams();
@@ -26,9 +27,10 @@ export default function Pokemon() {
    *  */
   const colory = useThemeColors();
   const pokemonColors = colors.pokeType;
-  const typeName =
-    data !== undefined ? data.types.map((t) => t.type)[0].name : {}; // si data === undefine, on renvoie un objet vide, sinon on récupère la valeur du nom
-
+  const pokemonTypes =
+    data !== undefined ? data.types.map((t) => t.type.name) : {}; // si data === undefine, on renvoie un objet vide, sinon on récupère la valeur du nom
+  const pokemonFirstType = pokemonTypes[0];
+  console.log(pokemonTypes);
   const router = useRouter();
 
   const retourArriere = () => {
@@ -59,7 +61,7 @@ export default function Pokemon() {
             {
               backgroundColor: isLoading
                 ? colory.identity
-                : pokemonColors[typeName as keyof typeof pokemonColors], // prends la même structure qu'une propriété de l'objet pokemonColors
+                : pokemonColors[pokemonFirstType as keyof typeof pokemonColors], // prends la même structure qu'une propriété de l'objet pokemonColors
             },
           ]}
         >
@@ -82,20 +84,38 @@ export default function Pokemon() {
             >
               {params.name}
             </ThemedText>
-            <ThemedText variant="subtitle2" style={{ color: colory.grayWhite }}>
+            <ThemedText
+              variant="subtitle2"
+              style={[styles.pokemonNumber, { color: colory.grayWhite }]}
+            >
               #{params.id.padStart(3, "0")}
             </ThemedText>
           </Row>
 
           <Card style={styles.card}>
-            <Text> test</Text>
+            <Row>
+              {pokemonTypes.map((p) => {
+                <TypeBadge
+                  key={p}
+                  background={
+                    pokemonColors[
+                      pokemonFirstType as keyof typeof pokemonColors
+                    ]
+                  }
+                >
+                  test
+                </TypeBadge>;
+              })}
+            </Row>
           </Card>
-          <Image
-            source={{
-              uri: getPokemonArtwork(params.id),
-            }}
-            style={styles.pokemonArtwork}
-          />
+          <View style={styles.artwork}>
+            <Image
+              source={{
+                uri: getPokemonArtwork(params.id),
+              }}
+              style={styles.pokemonArtwork}
+            />
+          </View>
         </SafeAreaView>
       )}
     </>
@@ -121,10 +141,8 @@ const styles = StyleSheet.create({
      */
   },
   header: {
-    padding: 20,
+    padding: 15,
     paddingBottom: 24,
-    justifyContent: "center",
-    alignItems: "center",
   },
   arrowBack: {
     height: 32,
@@ -133,17 +151,23 @@ const styles = StyleSheet.create({
   pokemonName: {
     paddingRight: 150,
   },
+  pokemonNumber: {
+    marginRight: 100,
+  },
   pokeball: {
     position: "absolute",
     right: 1,
     width: 208,
     height: 208,
   },
+  artwork: {
+    flex: 1,
+    position: "absolute",
+    top: 75,
+    left: 100,
+  },
   pokemonArtwork: {
     alignItems: "center",
-    position: "absolute",
-    top: 80,
-    left: 100,
     width: 200,
     height: 200,
   },
