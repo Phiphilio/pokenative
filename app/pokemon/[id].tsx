@@ -15,6 +15,7 @@ import { useFetchQuery } from "@/hooks/useFetchQuery";
 import { colors } from "@/constant/colors";
 import { Card } from "@/components/card";
 import { PokeBallImage } from "@/components/pokemon/pokeballImage";
+import { getPokemonArtwork } from "@/functions/pokemon";
 
 export default function Pokemon() {
   const params = useLocalSearchParams();
@@ -28,7 +29,6 @@ export default function Pokemon() {
   const typeName =
     data !== undefined ? data.types.map((t) => t.type)[0].name : {}; // si data === undefine, on renvoie un objet vide, sinon on récupère la valeur du nom
 
-  console.log(typeName);
   const router = useRouter();
 
   const retourArriere = () => {
@@ -86,9 +86,16 @@ export default function Pokemon() {
               #{params.id.padStart(3, "0")}
             </ThemedText>
           </Row>
+
           <Card style={styles.card}>
             <Text> test</Text>
           </Card>
+          <Image
+            source={{
+              uri: getPokemonArtwork(params.id),
+            }}
+            style={styles.pokemonArtwork}
+          />
         </SafeAreaView>
       )}
     </>
@@ -132,8 +139,17 @@ const styles = StyleSheet.create({
     width: 208,
     height: 208,
   },
+  pokemonArtwork: {
+    alignItems: "center",
+    position: "absolute",
+    top: 80,
+    left: 100,
+    width: 200,
+    height: 200,
+  },
   card: {
-    flex: 2 / 3,
+    flex: 1,
+    marginTop: 150,
     margin: 4,
   },
 });
