@@ -30,7 +30,7 @@ export default function Pokemon() {
   const pokemonTypes =
     data !== undefined ? data.types.map((t) => t.type.name) : {}; // si data === undefine, on renvoie un objet vide, sinon on récupère la valeur du nom
   const pokemonFirstType = pokemonTypes[0];
-  console.log(pokemonTypes);
+  console.log(pokemonFirstType);
   const router = useRouter();
 
   const retourArriere = () => {
@@ -93,19 +93,14 @@ export default function Pokemon() {
           </Row>
 
           <Card style={styles.card}>
-            <Row>
-              {pokemonTypes.map((p) => {
+            <Row style={styles.badgeType} gap={16}>
+              {pokemonTypes.map((p) => (
                 <TypeBadge
                   key={p}
-                  background={
-                    pokemonColors[
-                      pokemonFirstType as keyof typeof pokemonColors
-                    ]
-                  }
-                >
-                  test
-                </TypeBadge>;
-              })}
+                  background={pokemonColors[p as keyof typeof pokemonColors]}
+                  text={p}
+                />
+              ))}
             </Row>
           </Card>
           <View style={styles.artwork}>
@@ -170,6 +165,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: 200,
     height: 200,
+  },
+  badgeType: {
+    justifyContent: "center",
+    marginTop: 50,
   },
   card: {
     flex: 1,
