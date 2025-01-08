@@ -29,8 +29,9 @@ export default function Pokemon() {
   const pokemonColors = colors.pokeType;
   const pokemonTypes =
     data !== undefined ? data.types.map((t) => t.type.name) : {}; // si data === undefine, on renvoie un objet vide, sinon on récupère la valeur du nom
-  const pokemonFirstType = pokemonTypes[0];
-  console.log(pokemonFirstType);
+  const pokemonFirstType = pokemonTypes[0] as keyof typeof pokemonColors;
+  // console.log(data);
+  // console.log(data.moves);
   const router = useRouter();
 
   const retourArriere = () => {
@@ -61,7 +62,7 @@ export default function Pokemon() {
             {
               backgroundColor: isLoading
                 ? colory.identity
-                : pokemonColors[pokemonFirstType as keyof typeof pokemonColors], // prends la même structure qu'une propriété de l'objet pokemonColors
+                : pokemonColors[pokemonFirstType], // prends la même structure qu'une propriété de l'objet pokemonColors
             },
           ]}
         >
@@ -102,6 +103,18 @@ export default function Pokemon() {
                 />
               ))}
             </Row>
+            <ThemedText
+              variant="subtitle1"
+              style={{ color: pokemonColors[pokemonFirstType] }}
+            >
+              About
+            </ThemedText>
+            <ThemedText
+              variant="subtitle1"
+              style={{ color: pokemonColors[pokemonFirstType] }}
+            >
+              Base Stats
+            </ThemedText>
           </Card>
           <View style={styles.artwork}>
             <Image
@@ -167,12 +180,14 @@ const styles = StyleSheet.create({
     height: 200,
   },
   badgeType: {
-    justifyContent: "center",
+    //justifyContent: "center",
     marginTop: 50,
   },
   card: {
     flex: 1,
     marginTop: 150,
     margin: 4,
+    gap: 16,
+    alignItems: "center",
   },
 });
