@@ -17,6 +17,7 @@ import { Card } from "@/components/card";
 import { PokeBallImage } from "@/components/pokemon/pokeballImage";
 import { getPokemonArtwork } from "@/functions/pokemon";
 import { TypeBadge } from "@/components/typeBadge";
+import { PokemonSpec } from "@/components/pokemonSpec";
 
 export default function Pokemon() {
   const params = useLocalSearchParams();
@@ -109,6 +110,20 @@ export default function Pokemon() {
             >
               About
             </ThemedText>
+            <Row gap={18}>
+              <PokemonSpec
+                title={data.weight}
+                description="weight"
+                image={require("@/assets/images/weight.png")}
+              />
+              <PokemonSpec
+                title={data.height}
+                description="height"
+                image={require("@/assets/images/height.png")}
+                style={styles.pokemonSpecCenter}
+              />
+              <PokemonSpec title="6.5kg" description="weight" />
+            </Row>
             <ThemedText
               variant="subtitle1"
               style={{ color: pokemonColors[pokemonFirstType] }}
@@ -189,5 +204,10 @@ const styles = StyleSheet.create({
     margin: 4,
     gap: 16,
     alignItems: "center",
+  },
+  pokemonSpecCenter: {
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    padding: 15,
   },
 });
