@@ -1,7 +1,5 @@
 import { StyleSheet, View, ViewProps, Text } from "react-native";
 import { ThemedText } from "./ThemedText";
-import { useThemeColors } from "@/hooks/useThemeColors";
-import { colors } from "@/constant/colors";
 
 type props = ViewProps & {
   background: string;
@@ -9,7 +7,7 @@ type props = ViewProps & {
 };
 export function TypeBadge({ background, text, ...rest }: props) {
   return (
-    <View style={[styles.badge, { backgroundColor: background }]}>
+    <View style={[styles.badge, { backgroundColor: background }]} {...rest}>
       <ThemedText variant="subtitle3" color="grayWhite" style={styles.text}>
         {text}
       </ThemedText>
