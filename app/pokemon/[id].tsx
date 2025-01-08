@@ -15,7 +15,7 @@ import { useFetchQuery } from "@/hooks/useFetchQuery";
 import { colors } from "@/constant/colors";
 import { Card } from "@/components/card";
 import { PokeBallImage } from "@/components/pokemon/pokeballImage";
-import { getPokemonArtwork } from "@/functions/pokemon";
+import { getPokemonArtwork, getStringSliced } from "@/functions/pokemon";
 import { TypeBadge } from "@/components/typeBadge";
 import { PokemonSpec } from "@/components/pokemonSpec";
 
@@ -32,7 +32,7 @@ export default function Pokemon() {
     data !== undefined ? data.types.map((t) => t.type.name) : {}; // si data === undefine, on renvoie un objet vide, sinon on récupère la valeur du nom
   const pokemonFirstType = pokemonTypes[0] as keyof typeof pokemonColors;
   // console.log(data);
-  // console.log(data.moves);
+  //console.log("longuer de data.w", data.weight.toString().length);
   const router = useRouter();
 
   const retourArriere = () => {
@@ -112,12 +112,12 @@ export default function Pokemon() {
             </ThemedText>
             <Row gap={18}>
               <PokemonSpec
-                title={data.weight}
+                title={getStringSliced(data.weight.toString()) + " kg"}
                 description="weight"
                 image={require("@/assets/images/weight.png")}
               />
               <PokemonSpec
-                title={data.height}
+                title={getStringSliced(data.height.toString()) + " m"}
                 description="height"
                 image={require("@/assets/images/height.png")}
                 style={styles.pokemonSpecCenter}
