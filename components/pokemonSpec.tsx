@@ -16,7 +16,7 @@ export function PokemonSpec({
 }: props) {
   return (
     <View style={[styles.alignement, style]}>
-      <Row gap={8}>
+      <Row style={styles.row}>
         {image && <Image source={image} />}
         <ThemedText> {title}</ThemedText>
       </Row>
@@ -30,6 +30,14 @@ export function PokemonSpec({
 const styles = StyleSheet.create({
   alignement: {
     alignItems: "center",
-    padding: 5,
+    // justifyContent: "center",
+    // height: 50,
+    width: 103,
+    height: 48,
+    gap: 15,
+  },
+  row: {
+    height: 32,
+    alignItems: "center",
   },
 });
