@@ -134,6 +134,10 @@ export default function Pokemon() {
                 description="Moves"
               />
             </Row>
+            <ThemedText variant="body3" color="grayDark" style={styles.bio}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+              doeiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </ThemedText>
             <ThemedText
               variant="subtitle1"
               style={{ color: pokemonColors[pokemonFirstType] }}
@@ -221,5 +225,11 @@ const styles = StyleSheet.create({
     borderLeftWidth: 1,
     borderRightWidth: 1,
     //padding: 15,
+  },
+  bio: {
+    marginTop: 15,
+    //marginBottom: 5,
+    width: 312,
+    height: 60,
   },
 });
