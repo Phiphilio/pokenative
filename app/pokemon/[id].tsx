@@ -86,6 +86,7 @@ export default function Pokemon() {
             >
               {params.name}
             </ThemedText>
+
             <ThemedText
               variant="subtitle2"
               style={[styles.pokemonNumber, { color: colory.grayWhite }]}
@@ -110,19 +111,28 @@ export default function Pokemon() {
             >
               About
             </ThemedText>
-            <Row gap={18}>
+            <Row>
               <PokemonSpec
                 title={getStringSliced(data.weight.toString()) + " kg"}
-                description="weight"
+                description="Weight"
                 image={require("@/assets/images/weight.png")}
               />
               <PokemonSpec
                 title={getStringSliced(data.height.toString()) + " m"}
-                description="height"
+                description="Height"
                 image={require("@/assets/images/height.png")}
-                style={styles.pokemonSpecCenter}
+                style={[
+                  styles.pokemonSpecCenter,
+                  { borderColor: colory.grayLight },
+                ]}
               />
-              <PokemonSpec title="6.5kg" description="weight" />
+              <PokemonSpec
+                title={data?.moves
+                  .slice(0, 2)
+                  .map((m) => m.move.name)
+                  .join("\n")}
+                description="Moves"
+              />
             </Row>
             <ThemedText
               variant="subtitle1"
@@ -172,10 +182,12 @@ const styles = StyleSheet.create({
     width: 32,
   },
   pokemonName: {
-    paddingRight: 150,
+    //  paddingRight: 150,
+    width: 232,
+    height: 32,
   },
   pokemonNumber: {
-    marginRight: 100,
+    // marginRight: 100,
   },
   pokeball: {
     position: "absolute",
@@ -208,6 +220,6 @@ const styles = StyleSheet.create({
   pokemonSpecCenter: {
     borderLeftWidth: 1,
     borderRightWidth: 1,
-    padding: 15,
+    //padding: 15,
   },
 });
