@@ -18,6 +18,7 @@ import { PokeBallImage } from "@/components/pokemon/pokeballImage";
 import { getPokemonArtwork, getStringSliced } from "@/functions/pokemon";
 import { TypeBadge } from "@/components/typeBadge";
 import { PokemonSpec } from "@/components/pokemonSpec";
+import { PokemonStats } from "@/components/pokemonStats";
 
 export default function Pokemon() {
   const params = useLocalSearchParams();
@@ -31,7 +32,13 @@ export default function Pokemon() {
   const pokemonTypes =
     data !== undefined ? data.types.map((t) => t.type.name) : {}; // si data === undefine, on renvoie un objet vide, sinon on récupère la valeur du nom
   const pokemonFirstType = pokemonTypes[0] as keyof typeof pokemonColors;
-  // console.log(data);
+
+  const pokemonBaseStats =
+    data?.stats.flatMap((s) => {
+      return { name: s.stat.name, value: s.base_stat };
+    }) ?? [];
+
+  // console.log(pokemonBaseStats);
   //console.log("longuer de data.w", data.weight.toString().length);
   const router = useRouter();
 
@@ -91,7 +98,7 @@ export default function Pokemon() {
               variant="subtitle2"
               style={[styles.pokemonNumber, { color: colory.grayWhite }]}
             >
-              #{params.id.padStart(3, "0")}
+              #{params.id.toString().padStart(3, "0")}
             </ThemedText>
           </Row>
 
@@ -144,6 +151,14 @@ export default function Pokemon() {
             >
               Base Stats
             </ThemedText>
+            {pokemonBaseStats.map((poke) => (
+              <PokemonStats
+                key={poke.name}
+                name={poke.name}
+                stats={poke.value}
+                color={pokemonColors[pokemonFirstType]}
+              />
+            ))}
           </Card>
           <View style={styles.artwork}>
             <Image
@@ -231,5 +246,6 @@ const styles = StyleSheet.create({
     //marginBottom: 5,
     width: 312,
     height: 60,
+    paddingBottom: 0,
   },
 });

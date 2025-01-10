@@ -8,10 +8,21 @@ type props = ViewProps & {
   stats: number;
   color: string;
 };
+
+function statShortName(name: string): string {
+  return name
+    .replaceAll("special", "s")
+    .replaceAll("-", "")
+    .replaceAll("attack", "ATK")
+    .replaceAll("defense", "DEF")
+    .replaceAll("special", "s")
+    .replaceAll("speed", "spd")
+    .toUpperCase();
+}
 export function PokemonStats({ name, stats, color, ...rest }: props) {
   const colors = useThemeColors();
   return (
-    <Row>
+    <Row {...rest}>
       <ThemedText
         variant="subtitle3"
         style={[
@@ -19,7 +30,7 @@ export function PokemonStats({ name, stats, color, ...rest }: props) {
           { color: color, borderRightColor: colors.grayLight },
         ]}
       >
-        {name}
+        {statShortName(name)}
       </ThemedText>
       <ThemedText style={styles.statsSection}>
         {stats.toString().padStart(3, "0")}
