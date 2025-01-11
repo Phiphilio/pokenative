@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Dimensions,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useThemeColors } from "@/hooks/useThemeColors";
@@ -29,6 +30,9 @@ export default function Pokemon() {
    *  */
   const colory = useThemeColors();
   const pokemonColors = colors.pokeType;
+
+  const { width, height } = Dimensions.get("window"); //je récupère les dimmensions de l'écran
+  const gap = height > 640 ? 15 : 3;
   const pokemonTypes =
     data !== undefined ? data.types.map((t) => t.type.name) : {}; // si data === undefine, on renvoie un objet vide, sinon on récupère la valeur du nom
   const pokemonFirstType = pokemonTypes[0] as keyof typeof pokemonColors;
@@ -151,14 +155,16 @@ export default function Pokemon() {
             >
               Base Stats
             </ThemedText>
-            {pokemonBaseStats.map((poke) => (
-              <PokemonStats
-                key={poke.name}
-                name={poke.name}
-                stats={poke.value}
-                color={pokemonColors[pokemonFirstType]}
-              />
-            ))}
+            <View style={{ flex: 1, alignItems: "center", gap: gap }}>
+              {pokemonBaseStats.map((poke) => (
+                <PokemonStats
+                  key={poke.name}
+                  name={poke.name}
+                  stats={poke.value}
+                  color={pokemonColors[pokemonFirstType]}
+                />
+              ))}
+            </View>
           </Card>
           <View style={styles.artwork}>
             <Image
@@ -233,7 +239,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 150,
     margin: 4,
-    gap: 16,
+    gap: 10,
     alignItems: "center",
   },
   pokemonSpecCenter: {
