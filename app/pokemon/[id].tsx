@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 150,
     margin: 4,
-    gap: 10,
+    gap: 7,
     alignItems: "center",
   },
   pokemonSpecCenter: {
