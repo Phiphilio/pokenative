@@ -21,12 +21,40 @@ import { TypeBadge } from "@/components/typeBadge";
 import { PokemonSpec } from "@/components/pokemonSpec";
 import { PokemonStats } from "@/components/pokemonStats";
 import PagerView from "react-native-pager-view";
+import { useRef, useState } from "react";
 
 export default function Pokemon() {
   const params = useLocalSearchParams() as { id: string };
-  const id = parseInt(params.id, 10);
+  const [id, setId] = useState(parseInt(params.id, 10));
+  const offset = useRef(1);
+
+  const onPageSelected = (e: { nativeEvent: { position: number } }) => {
+    offset.current = e.nativeEvent.position - 1;
+  };
+  const onPageScrollStateChanged = (e: {
+    nativeEvent: { pageScrollState: string };
+  }) => {
+    if (e.nativeEvent.pageScrollState !== "idle") {
+      return;
+    }
+    if (offset.current === -1 && id === 2) {
+      return;
+    }
+    if (offset.current === 1 && id === 155) {
+      return;
+    }
+    if (e.nativeEvent.pageScrollState === "idle" && offset.current !== 0) {
+      setId(offset.current + id);
+      offset.current = 0;
+    }
+  };
   return (
-    <PagerView initialPage={1} style={{ flex: 1 }}>
+    <PagerView
+      onPageSelected={onPageSelected}
+      onPageScrollStateChanged={onPageScrollStateChanged}
+      initialPage={1}
+      style={{ flex: 1 }}
+    >
       <PokemonView key={id - 1} id={id - 1} />
       <PokemonView key={id} id={id} />
       <PokemonView key={id + 1} id={id + 1} />
