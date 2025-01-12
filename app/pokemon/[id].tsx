@@ -20,30 +20,38 @@ import { getPokemonArtwork, getStringSliced } from "@/functions/pokemon";
 import { TypeBadge } from "@/components/typeBadge";
 import { PokemonSpec } from "@/components/pokemonSpec";
 import { PokemonStats } from "@/components/pokemonStats";
+import PagerView from "react-native-pager-view";
 
 export default function Pokemon() {
-  const params = useLocalSearchParams();
-  const { data, isLoading } = useFetchQuery("/pokemon/[id]", { id: params.id });
-  /** je récupère isLoading pour gérer le fait que data soit d'abord une promesse,
-   * ça me permet d'éviter les erreurs où j'essaie d'accéder à des propriétés qui n'existent pas encore
-   *
-   *  */
+  const params = useLocalSearchParams() as { id: string };
+  const id = parseInt(params.id, 10);
+  return (
+    <PagerView initialPage={1} style={{ flex: 1 }}>
+      <PokemonView key={id - 1} id={id - 1} />
+      <PokemonView key={id} id={id} />
+      <PokemonView key={id + 1} id={id + 1} />
+    </PagerView>
+  );
+}
+
+function PokemonView({ id }: { id: number }) {
+  const { data, isLoading } = useFetchQuery("/pokemon/[id]", { id: id });
+  const pokemon = data;
   const colory = useThemeColors();
   const pokemonColors = colors.pokeType;
 
   const { width, height } = Dimensions.get("window"); //je récupère les dimmensions de l'écran
   const gap = height > 640 ? 15 : 3;
-  const pokemonTypes =
-    data !== undefined ? data.types.map((t) => t.type.name) : {}; // si data === undefine, on renvoie un objet vide, sinon on récupère la valeur du nom
+  const pokemonTypes = pokemon?.types.map((t) => t.type.name) ?? []; // si pokemon === undefine, on renvoie un objet vide, sinon on récupère la valeur du nom
   const pokemonFirstType = pokemonTypes[0] as keyof typeof pokemonColors;
 
   const pokemonBaseStats =
-    data?.stats.flatMap((s) => {
+    pokemon?.stats.flatMap((s) => {
       return { name: s.stat.name, value: s.base_stat };
     }) ?? [];
 
   // console.log(pokemonBaseStats);
-  //console.log("longuer de data.w", data.weight.toString().length);
+  //console.log("longuer de pokemon.w", pokemon.weight.toString().length);
   const router = useRouter();
 
   const retourArriere = () => {
@@ -95,26 +103,26 @@ export default function Pokemon() {
               variant="headline"
               style={[styles.pokemonName, { color: colory.grayWhite }]}
             >
-              {params.name}
+              {pokemon?.name}
             </ThemedText>
 
             <ThemedText
               variant="subtitle2"
               style={[styles.pokemonNumber, { color: colory.grayWhite }]}
             >
-              #{params.id.toString().padStart(3, "0")}
+              #{id.toString().padStart(3, "0")}
             </ThemedText>
           </Row>
 
           <Card style={styles.card}>
             <Row style={styles.badgeType} gap={16}>
-              {pokemonTypes.map((p) => (
+              {pokemonTypes?.map((p) => (
                 <TypeBadge
                   key={p}
                   background={pokemonColors[p as keyof typeof pokemonColors]}
                   text={p}
                 />
-              ))}
+              )) ?? []}
             </Row>
             <ThemedText
               variant="subtitle1"
@@ -124,12 +132,14 @@ export default function Pokemon() {
             </ThemedText>
             <Row>
               <PokemonSpec
-                title={getStringSliced(data.weight.toString()) + " kg"}
+                title={
+                  getStringSliced(pokemon?.weight.toString() ?? "") + " kg"
+                }
                 description="Weight"
                 image={require("@/assets/images/weight.png")}
               />
               <PokemonSpec
-                title={getStringSliced(data.height.toString()) + " m"}
+                title={getStringSliced(pokemon?.height.toString() ?? "") + " m"}
                 description="Height"
                 image={require("@/assets/images/height.png")}
                 style={[
@@ -138,7 +148,7 @@ export default function Pokemon() {
                 ]}
               />
               <PokemonSpec
-                title={data?.moves
+                title={pokemon?.moves
                   .slice(0, 2)
                   .map((m) => m.move.name)
                   .join("\n")}
@@ -169,7 +179,7 @@ export default function Pokemon() {
           <View style={styles.artwork}>
             <Image
               source={{
-                uri: getPokemonArtwork(params.id),
+                uri: getPokemonArtwork(id),
               }}
               style={styles.pokemonArtwork}
             />
