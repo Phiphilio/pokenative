@@ -15,10 +15,14 @@ import { PokemonCard } from "@/components/pokemon/pokemonCard";
 import { useFetchQuery, useInfiniteFetchQuery } from "@/hooks/useFetchQuery";
 import { getPokemonId } from "@/functions/pokemon";
 import { SearchBar } from "@/components/searchBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Row } from "@/components/row";
 import { FilterButton } from "@/components/filterButton";
 import { PokeBallImage } from "@/components/pokemon/pokeballImage";
+import * as SplashScreen from "expo-splash-screen";
+
+// Prévenir l'écran de démarrage de se fermer tant que l'application n'est pas prête
+SplashScreen.preventAutoHideAsync();
 
 export default function Index() {
   const [search, setSearch] = useState("");
@@ -29,20 +33,7 @@ export default function Index() {
   const pokemon =
     data?.pages.flatMap((page) =>
       page.results.map((r) => ({ name: r.name, id: getPokemonId(r.url) }))
-    ) ?? []; // si data existe tu prends la propriété résults sinon tu renvoies jsute un tableau
-  // console.log(pokemon);
-  /**
-   * data?.pages.flatMap((page) => page.results)
-   *
-   * - data?.pages contient un tableau d'objets.
-   * - flatMap combine map et flat :
-   *    1. Il parcourt chaque élément du tableau (ici, chaque objet `page`)
-   *       et applique la fonction de transformation `(page) => page.results`.
-   *    2. Il aplatit les résultats dans un tableau unique (équivalent à flat(1)).
-   *
-   * En résumé, flatMap crée un tableau rempli progressivement avec les résultats transformés,
-   * tout en supprimant un niveau de profondeur.
-   */
+    ) ?? [];
   const filteredPokemon = [
     ...(search
       ? pokemon.filter(
@@ -51,27 +42,15 @@ export default function Index() {
             poke.id.toString() === search
         )
       : pokemon),
-  ].sort((a, b) =>
-    a[sortKey] < b[sortKey] ? -1 : 1
-  ); /** la methode sort s'attend à recevoir -1 pour conserver l'ordre et 1 pour le modifier
-  il se base sur l'ordre de la table ascii.
-  d'ailleurs dans le cas des lettres, il faut savoir qu'elles sont toutes passées en majuscule au préalable dans le premier tableau
-  */
+  ].sort((a, b) => (a[sortKey] < b[sortKey] ? -1 : 1));
 
-  /**
-   * la methode filter permet de s'assurer si chaque élément d'un tableau rempli une condition. Si cet élément la rempli, il sera stocké dans un autre tableau
-   * ensuite, on a 2 conditions dans notre cas :
-   *    1.poke.name.includes(search.toLowerCase())
-   *    2.getPokemonId(poke.url).toString() === search
-   *
-   * la première transforme d'abord la valeur de search en miniscule grâce à : search.toLowerCase(). Ensuite la methode includes() vérifie si le mot passé en
-   * paramètre est inclus dans poke.name
-   *
-   * la deuxieme utilise la fonction getPokemonId pour extraire l'id de l'url, comme l'id est un nombre, on l'a convertis en string et si il corrspond totalement
-   * à search, alors il est stocké dans le tableau de retour
-   */
-
-  //console.log(filteredPokemon);
+  /**gestion du splashscreen */
+  useEffect(() => {
+    // Simuler un délai de chargement ou effectuer des opérations avant de cacher le splashscreen
+    setTimeout(async () => {
+      await SplashScreen.hideAsync(); // Cache le splashscreen
+    }, 3000); // Remplace 3000 par le temps de chargement nécessaire
+  }, []);
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: colors.identity }]}
